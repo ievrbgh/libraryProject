@@ -24,7 +24,7 @@ public class PersonDAO {
     //BeanPropertyRowMapper<>(Класс) - маппер, позволяющий создать объект на основе полученных данных
     public Person getById(int id){
         logger.info("Call PersonDAO getById method with argument: " + id);
-        return jdbcTemplate.query("SELECT FROM person WHERE id = ?",
+        return jdbcTemplate.query("SELECT * FROM person WHERE id = ?",
                 new Object[] {id}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
     }
 
@@ -45,7 +45,7 @@ public class PersonDAO {
         logger.info("Call PersonDAO update method with arguments: " + id + ", " +
                 person.getFirstName()+" ,"+ person.getMiddleName()+" ,"+person.getLastName()+" ,"+person.getBirthYear());
         jdbcTemplate.update("UPDATE person SET firstName = ?, middleName = ?, lastName = ?, birthYear = ? WHERE id = ?",
-                person.getFirstName(), person.getMiddleName(), person.getLastName(), id);
+                person.getFirstName(), person.getMiddleName(), person.getLastName(),person.getBirthYear(), id);
     }
 
     public void delete(int id){

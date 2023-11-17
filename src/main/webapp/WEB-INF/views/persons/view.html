@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Person page</title>
 </head>
 <body>
+
+    <div>
+        <p th:text="|FIO: ${person.getLastName()} ${person.getFirstName()} ${person.getMiddleName()}|"> person </p> <br>
+        <p th:text="|Birth year: ${person.getBirthYear()}|"> person </p> <br>
+        <div>
+            <h3> Hold books: </h3>
+            <div th:each=" book : ${books}" >
+                <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="
+                |${book.getName()} ${book.getAuthor()}|"> book </a> <br>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <a th:href="@{/persons/{id}/edit(id=${person.getId()})}" th:text="|Edit person info|"> edit </a>
+
+        <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+            <input type="submit" value="Delete person">
+        </form>
+        <a th:href="@{/persons}" th:text="|Back|"> add </a>
+    </div>
 
 </body>
 </html>
