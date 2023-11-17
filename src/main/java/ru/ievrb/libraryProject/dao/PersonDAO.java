@@ -24,12 +24,14 @@ public class PersonDAO {
     //BeanPropertyRowMapper<>(Класс) - маппер, позволяющий создать объект на основе полученных данных
     public Person getById(int id){
         logger.info("Call PersonDAO getById method with argument: " + id);
-        return jdbcTemplate.query("SELECT FROM person WHERE id = ?", new Object[] {id}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
+        return jdbcTemplate.query("SELECT FROM person WHERE id = ?",
+                new Object[] {id}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
     }
 
     public List<Person> getList(){
         logger.info("Call PersonDAO getList method");
-        return jdbcTemplate.query("SELECT * FROM person", new BeanPropertyRowMapper<>(Person.class));
+        return jdbcTemplate.query("SELECT * FROM person",
+                new BeanPropertyRowMapper<>(Person.class));
     }
 
     public void save(Person person){
