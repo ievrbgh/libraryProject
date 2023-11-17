@@ -2,11 +2,9 @@ package ru.ievrb.libraryProject.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.ievrb.libraryProject.dao.PersonDAO;
 import ru.ievrb.libraryProject.models.Person;
 
@@ -23,7 +21,8 @@ public class PersonsController {
     }
 
     @GetMapping()
-    public String index(){
+    public String index(Model model){
+        model.addAttribute("personList", personDAO.getList());
         return "persons/index";
     }
 
@@ -40,6 +39,13 @@ public class PersonsController {
         }
         personDAO.save(person);
         return "redirect:persons";
+    }
+
+    @GetMapping("/{id}")
+    public String getById(@PathVariable("id") int id, Model model){
+        Person person = personDAO.getById(id);
+        model.addAttribute("person", person);
+        return "persons/view";
     }
 
 

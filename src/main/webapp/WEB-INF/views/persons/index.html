@@ -5,6 +5,26 @@
     <title>PersonsList</title>
 </head>
 <body>
-  Persons list page
+    <div>
+        <h2>Person list</h2>
+
+        <div th:each="person : ${personList}">
+
+            <a th:href="@{/persons/{id}(id=${person.getId()})}" th:text="|${person.getLastName()} ${person.getFirstName()} ${person.getMiddleName()}|"> person </a>
+            <br>
+
+        </div>
+
+        <br>
+        <hr>
+
+        <div>
+            <a th:href="@{/persons/add}" th:text="|Add new person|"> add </a>
+
+            <a th:href="@{/}" th:text="|Back|"> add </a>
+        </div>
+
+    </div>
+
 </body>
 </html>

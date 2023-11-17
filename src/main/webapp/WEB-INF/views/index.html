@@ -1,5 +1,9 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <body>
-<h2>Library</h2>
+<h1>Library</h1>
+<h3> Welcome to the library homepage </h3>
+<a th:href="@{/persons}" th:text="|Person List|"> </a> <br>
+<a th:href="@{/books}" th:text="|Book List|"> </a> <br>
 </body>
 </html>
