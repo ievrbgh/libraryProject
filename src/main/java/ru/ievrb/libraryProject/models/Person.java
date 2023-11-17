@@ -1,11 +1,21 @@
 package ru.ievrb.libraryProject.models;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+
 public class Person {
 
     private int id;
+    @NotEmpty(message = "Field cannot be empty.")
     private String firstName;
+    @NotEmpty(message = "Field cannot be empty.")
     private String lastName;
+    @NotEmpty(message = "Field cannot be empty.")
     private String middleName;
+
+    @Min(value=1900, message = "Enter the correct age of the visitor.")
+    @Max(value=2009, message = "Enter the correct age of the visitor.")
     private int birthYear;
 
     public Person() {
