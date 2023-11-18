@@ -22,6 +22,12 @@ public class BookDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public List<Book> getByHolder(int id) {
+        logger.info("Call BookDAO getByHolder method with argument: " + id);
+        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id = ?",
+                new Object[]{id}, new BeanPropertyRowMapper<>(Book.class));
+    }
+
     public Book getById(int id){
         logger.info("Call BookDAO getById method with argument: " + id);
         return jdbcTemplate.query("SELECT * FROM Book WHERE id = ?",
@@ -38,15 +44,15 @@ public class BookDAO {
         logger.info("Call BookDAO save method with arguments: " +
                 book.getPersonId()+" ,"+ book.getName()+" ,"+book.getAuthor()+" ,"+book.getYear());
 
-        jdbcTemplate.update("INSERT INTO Book (person_id, name, author, year) VALUES (?,?,?,?)",
-                book.getPersonId(), book.getName(), book.getAuthor(), book.getYear());
+        jdbcTemplate.update("INSERT INTO Book ( name, author, year) VALUES (?,?,?)",
+                 book.getName(), book.getAuthor(), book.getYear());
     }
 
     public void update(int id, Book book){
         logger.info("Call BookDAO update method with arguments: " + id + ", " +
                 book.getPersonId()+" ,"+ book.getName()+" ,"+book.getAuthor()+" ,"+book.getYear());
-        jdbcTemplate.update("UPDATE Book SET person_id = ?, name = ?, author = ?, year = ? WHERE id = ?",
-                book.getPersonId(), book.getName(), book.getAuthor(), book.getYear(), id);
+        jdbcTemplate.update("UPDATE Book SET  name = ?, author = ?, year = ? WHERE id = ?",
+                 book.getName(), book.getAuthor(), book.getYear(), id);
     }
 
     public void delete(int id){
@@ -54,5 +60,11 @@ public class BookDAO {
         jdbcTemplate.update("DELETE FROM Book WHERE id = ?", id);
     }
 
+    public void setHolder(int id, Book book){
+        jdbcTemplate.update("UPDATE Book SET person_id = ? WHERE id = ?", id, book.getId());
+    }
 
+    public void resetHolder(int id){
+        jdbcTemplate.update("UPDATE Book SET person_id = null WHERE id = ?", id);
+    }
 }
