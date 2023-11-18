@@ -1,17 +1,23 @@
 package ru.ievrb.libraryProject.models;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+
 public class Book {
 
     private int id;
 
+    @Min(value=0, message = "Person id incorrect")
     private Integer personId;
-
+    @NotEmpty(message = "Field cannot be empty.")
     private String name;
-
+    @NotEmpty(message = "Field cannot be empty.")
     private String author;
-
+    @NotEmpty(message = "Field cannot be empty.")
     private int year;
-
+    @Min(value=0, message = "Enter the correct year.")
+    @Max(value=2023, message = "Enter the correct year.")
     public Book() {
     }
 

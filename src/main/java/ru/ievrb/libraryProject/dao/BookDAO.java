@@ -61,10 +61,13 @@ public class BookDAO {
     }
 
     public void setHolder(int id, Book book){
+        logger.info("Call BookDAO setHolder method with argument: "+id+", " +
+                book.getId());
         jdbcTemplate.update("UPDATE Book SET person_id = ? WHERE id = ?", id, book.getId());
     }
 
     public void resetHolder(int id){
+        logger.info("Call BookDAO resetHolder method with argument: "+id);
         jdbcTemplate.update("UPDATE Book SET person_id = null WHERE id = ?", id);
     }
 }
