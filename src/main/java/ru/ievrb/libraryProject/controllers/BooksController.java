@@ -90,12 +90,8 @@ public class BooksController {
     }
 
     @PatchMapping("/checkHolder")
-    public String checkHolder(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult){
+    public String checkHolder(@ModelAttribute("book") Book book){
         int id = book.getId();
-
-        if(bindingResult.hasErrors()){
-            return "redirect:/books/"+id;
-        }
         bookDAO.setHolder(book.getPersonId(), bookDAO.getById(book.getId()));
         return "redirect:/books/"+id;
     }
