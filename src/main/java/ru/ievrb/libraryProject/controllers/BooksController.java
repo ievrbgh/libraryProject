@@ -1,6 +1,7 @@
 package ru.ievrb.libraryProject.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,10 @@ import ru.ievrb.libraryProject.services.BookService;
 import ru.ievrb.libraryProject.services.PersonService;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/books")
@@ -64,10 +69,26 @@ public class BooksController {
     }
 
     @GetMapping()
-    public String getList(Model model){
-        model.addAttribute("bookList", bookService.findAll());
+    public String getList(Model model,
+                          @RequestParam(name = "count", required = false) Optional<Integer> count,
+                          @RequestParam(name = "page", required = false) Optional<Integer> page){
+
+        int booksCount = count.orElse(5);
+        int currentPage = page.orElse(0);
+
+        Page<Book> booksPage = bookService.findAll(currentPage, booksCount);
+
+        if(booksPage.getTotalPages() > 1) {
+            List<Integer> pagination = IntStream.rangeClosed(0, booksPage.getTotalPages()-1).boxed().collect(Collectors.toList());
+            model.addAttribute("pagination", pagination);
+        }
+
+        model.addAttribute("bookList", booksPage);
+        model.addAttribute("count", booksCount);
+        model.addAttribute("currentPage", currentPage);
         return "books/index";
     }
+
     @GetMapping("/{id}")
     public String view(Model model, @PathVariable("id") int id){
         Book book = bookService.findById(id);

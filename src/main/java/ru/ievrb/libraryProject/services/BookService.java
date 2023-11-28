@@ -1,6 +1,8 @@
 package ru.ievrb.libraryProject.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ievrb.libraryProject.models.Book;
@@ -53,5 +55,9 @@ public class BookService {
 
     public List<Book> getByHolder(Person person) {
         return bookRepository.findByHolder(person);
+    }
+
+    public Page<Book> findAll(int page, int count){
+        return bookRepository.findAll(PageRequest.of(page, count));
     }
 }
