@@ -41,18 +41,18 @@ public class BookDAO {
     }
 
     public void save(Book book){
-        logger.info("Call BookDAO save method with arguments: " +
-                book.getPersonId()+" ,"+ book.getName()+" ,"+book.getAuthor()+" ,"+book.getYear());
-
-        jdbcTemplate.update("INSERT INTO Book ( name, author, year) VALUES (?,?,?)",
-                 book.getName(), book.getAuthor(), book.getYear());
+//        logger.info("Call BookDAO save method with arguments: " +
+//                book.getPersonId()+" ,"+ book.getName()+" ,"+book.getAuthor()+" ,"+book.getYear());
+//
+//        jdbcTemplate.update("INSERT INTO Book ( name, author, year) VALUES (?,?,?)",
+//                 book.getName(), book.getAuthor(), book.getYear());
     }
 
     public void update(int id, Book book){
-        logger.info("Call BookDAO update method with arguments: " + id + ", " +
-                book.getPersonId()+" ,"+ book.getName()+" ,"+book.getAuthor()+" ,"+book.getYear());
-        jdbcTemplate.update("UPDATE Book SET  name = ?, author = ?, year = ? WHERE id = ?",
-                 book.getName(), book.getAuthor(), book.getYear(), id);
+//        logger.info("Call BookDAO update method with arguments: " + id + ", " +
+//                book.getPersonId()+" ,"+ book.getName()+" ,"+book.getAuthor()+" ,"+book.getYear());
+//        jdbcTemplate.update("UPDATE Book SET  name = ?, author = ?, year = ? WHERE id = ?",
+//                 book.getName(), book.getAuthor(), book.getYear(), id);
     }
 
     public void delete(int id){

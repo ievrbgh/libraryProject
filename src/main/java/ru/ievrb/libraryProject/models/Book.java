@@ -1,29 +1,41 @@
 package ru.ievrb.libraryProject.models;
 
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
+@Entity
+@Table(name = "book")
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
 
 
-    private Integer personId;
+
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person holder;
     @NotEmpty(message = "Field cannot be empty.")
+    @Column(name="name")
     private String name;
     @NotEmpty(message = "Field cannot be empty.")
+    @Column(name="author")
     private String author;
     @Min(value=0, message = "Enter the correct year.")
     @Max(value=2023, message = "Enter the correct year.")
+    @Column(name="year")
     private int year;
 
     public Book() {
     }
 
-    public Book(int id, Integer personId, String name, int year) {
+    public Book(int id, Person holder, String name, int year) {
         this.id = id;
-        this.personId = personId;
+        this.holder = holder;
         this.name = name;
         this.year = year;
     }
@@ -36,12 +48,12 @@ public class Book {
         this.id = id;
     }
 
-    public Integer getPersonId() {
-        return personId;
+    public Person getHolder() {
+        return holder;
     }
 
-    public void setPersonId(Integer personId) {
-        this.personId = personId;
+    public void setHolder(Person holder) {
+        this.holder = holder;
     }
 
     public String getName() {

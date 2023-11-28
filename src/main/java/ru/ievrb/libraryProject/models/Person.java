@@ -1,22 +1,36 @@
 package ru.ievrb.libraryProject.models;
 
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
+@Entity
+@Table(name="person")
 public class Person {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private int id;
     @NotEmpty(message = "Field cannot be empty.")
+    @Column(name="firstname")
     private String firstName;
     @NotEmpty(message = "Field cannot be empty.")
+    @Column(name="lastname")
     private String lastName;
     @NotEmpty(message = "Field cannot be empty.")
+    @Column(name="middlename")
     private String middleName;
 
     @Min(value=1900, message = "Enter the correct age of the visitor.")
     @Max(value=2009, message = "Enter the correct age of the visitor.")
+    @Column(name="birthyear")
     private int birthYear;
+
+    @OneToMany(mappedBy = "holder")
+    private List<Book> books;
 
     public Person() {
     }
