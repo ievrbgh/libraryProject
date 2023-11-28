@@ -26,15 +26,13 @@ import javax.sql.DataSource;
 import java.util.Objects;
 import java.util.Properties;
 
-/**
- * @author Neil Alishev
- */
+
 @Configuration
 @ComponentScan("ru.ievrb.libraryProject")
 @EnableWebMvc
 @PropertySource("classpath:hibernate.properties")
 @EnableTransactionManagement
-@EnableJpaRepositories("ru.ievrb.libraryProject.repository")
+@EnableJpaRepositories("ru.ievrb.libraryProject.repositories")
 public class Config implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
