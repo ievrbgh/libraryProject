@@ -90,4 +90,8 @@ public class BookService {
         book.setOverdue(TimeUnit.DAYS.convert(elapsedms, TimeUnit.MILLISECONDS) > 10);
 
     }
+
+    public List<Book> search(String value){
+        return bookRepository.findWithPartOfName(value);
+    }
 }

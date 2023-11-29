@@ -26,6 +26,11 @@
                         </select>
                     <input type="submit" value="Set"/>
                 </form>
+                <form th:method="GET" th:action="@{/books/search}">
+                    <label for="searchValue">Search: </label>
+                    <input type="text" th:name="searchValue" id="searchValue" th:value="${searchValue ne null}? ${searchValue} : ''">
+                    <input type="submit" value="search">
+                </form>
             </div>
         </div>
 

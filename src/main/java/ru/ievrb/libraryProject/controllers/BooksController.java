@@ -131,4 +131,14 @@ public class BooksController {
         bookService.resetHolder(book);
         return "redirect:/books/"+book.getId();
     }
+
+    @GetMapping("/search")
+    public String search(Model model, @RequestParam(name="searchValue", required = false) String searchValue){
+        if(searchValue.equals("")){
+            return "redirect:/books";
+        }
+        model.addAttribute("searchValue", searchValue);
+        model.addAttribute("bookList", bookService.search(searchValue));
+        return "books/index";
+    }
 }
