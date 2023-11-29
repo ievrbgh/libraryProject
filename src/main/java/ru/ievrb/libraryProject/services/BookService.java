@@ -55,6 +55,8 @@ public class BookService {
 
     public void resetHolder(Book book) {
         book.setHolder(null);
+        book.setOverdue(false);
+        book.setPersonStoredDate(null);
         this.save(book);
     }
 
