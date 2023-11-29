@@ -11,6 +11,7 @@ import ru.ievrb.libraryProject.models.Person;
 import ru.ievrb.libraryProject.services.BookService;
 import ru.ievrb.libraryProject.services.PersonService;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -71,21 +72,20 @@ public class BooksController {
     @GetMapping()
     public String getList(Model model,
                           @RequestParam(name = "count", required = false) Optional<Integer> count,
-                          @RequestParam(name = "page", required = false) Optional<Integer> page){
+                          @RequestParam(name = "page", required = false) Optional<Integer> page,
+                          @RequestParam(name = "sortBy", required = false) Optional <String> sortBy){
 
         int booksCount = count.orElse(5);
         int currentPage = page.orElse(0);
+        String sortedBy = sortBy.orElse(null);
 
-        Page<Book> booksPage = bookService.findAll(currentPage, booksCount);
+        Page<Book> booksPage = bookService.findAll(currentPage, booksCount, sortedBy);
 
-        if(booksPage.getTotalPages() > 1) {
-            List<Integer> pagination = IntStream.rangeClosed(0, booksPage.getTotalPages()-1).boxed().collect(Collectors.toList());
-            model.addAttribute("pagination", pagination);
-        }
-
+        model.addAttribute("pagination", bookService.getPagination(booksPage));
         model.addAttribute("bookList", booksPage);
         model.addAttribute("count", booksCount);
         model.addAttribute("currentPage", currentPage);
+        model.addAttribute("sortedBy", sortedBy == null ? "name" : sortedBy);
         return "books/index";
     }
 
@@ -93,6 +93,10 @@ public class BooksController {
     public String view(Model model, @PathVariable("id") int id){
         Book book = bookService.findById(id);
         Person person = null;
+
+        if (book.getPersonStoredDate() != null){
+            bookService.checkOverdue(book);
+        }
 
         if (book.getHolder() != null) {
             person = book.getHolder();
@@ -111,13 +115,19 @@ public class BooksController {
     }
 
     @PatchMapping("/checkHolder")
-    public String checkHolder(@ModelAttribute("book") Book book){
-        bookService.save(book);
+    public String checkHolder(Model model, @ModelAttribute Book book){
+        Person person = personService.findById(book.getPersonId());
+        book = bookService.findById(book.getId());
+
+        bookService.setHolder(book, person);
+        bookService.startPersonStoredDate(book);
+
         return "redirect:/books/"+book.getId();
     }
 
     @PatchMapping("/resetHolder")
     public String resetHolder(@ModelAttribute("book") Book book){
+        book = bookService.findById(book.getId());
         bookService.resetHolder(book);
         return "redirect:/books/"+book.getId();
     }

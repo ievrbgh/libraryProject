@@ -18,6 +18,12 @@
                         <option value="15" th:selected="${count == 15}">15</option>
                         <option value="30" th:selected="${count == 30}">30</option>
                     </select>
+                    <label for="sortBy">Sort by: </label>
+                        <select th:name="sortBy" id="sortBy">
+                            <option value="name" th:selected="${sortedBy == 'name'}">name</option>
+                            <option value="author" th:selected="${sortedBy == 'author'}">author</option>
+                            <option value="year" th:selected="${sortedBy == 'year'}">year</option>
+                        </select>
                     <input type="submit" value="Set"/>
                 </form>
             </div>
@@ -35,19 +41,18 @@
         <br>
 
         <div th:if="${pagination ne null}" class="pagination">
-
             <th:block th:if="${currentPage-1 >= 0}">
-                <a th:href="@{/books(count=${count},page=${currentPage-1})}"><< prev</a>
+                <a th:href="@{/books(count=${count},page=${currentPage-1},sortBy=${sortedBy})}"><< prev</a>
             </th:block>
 
             <th:block th:each="page:${pagination}">
-                <a th:href="@{/books(count=${count},page=${page})}"
+                <a th:href="@{/books(count=${count},page=${page},sortBy=${sortedBy})}"
                    th:text="${page}"
                    th:style="${page==currentPage} ? 'pointer-events: none; font-weight: bold; text-decoration:none'">page</a>
             </th:block>
 
             <th:block th:if="${currentPage < bookList.getTotalPages()-1}">
-                <a th:href="@{/books(count=${count},page=${currentPage+1})}">next >></a>
+                <a th:href="@{/books(count=${count},page=${currentPage+1},sortBy=${sortedBy})}">next >></a>
             </th:block>
 
         </div>

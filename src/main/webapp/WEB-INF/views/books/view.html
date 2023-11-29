@@ -13,6 +13,8 @@
 
         <div th:if="${person ne null}">
             <p th:if="${person ne null}" th:text="|Book holder: ${person.getLastName()}|"> person </p>
+            <p th:text="|The book was issued at: ${book.getPersonStoredDate()}|"></p>
+            <p th:if="${book.isOverdue()}" style="color: red" th:text="' is overdue!'">overdue</p>
             <form th:method="PATCH" th:action="@{/books/resetHolder}" th:object="${book}">
                 <input hidden="hidden" th:object="${book}" th:field="*{id}"/>
                 <input type="submit" value="Reset holder">
@@ -22,9 +24,11 @@
 
             <form th:method="PATCH" th:action="@{/books/checkHolder}" th:object="${book}">
                 <label for="book"> Check book holder: </label>
-                <select th:object="${book}" th:field="*{personId}" id="book">
+
+                <select th:field="*{personId}" id="book">
                     <option th:each="person : ${personList}" th:value="${person.getId()}" th:text="${person.getLastName()}"></option>
                 </select>
+
                 <input hidden="hidden" th:object="${book}" th:field="*{id}"/>
                 <input type="submit" value="Save">
             </form>

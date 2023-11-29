@@ -13,7 +13,8 @@
             <h3> Hold books: </h3>
             <div th:each=" book : ${books}" >
                 <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="
-                |${book.getName()} ${book.getAuthor()}|"> book </a> <br>
+                |${book.getName()} ${book.getAuthor()}|" th:style="${book.isOverdue()} ? 'color:red'"> book </a>
+                <br>
             </div>
         </div>
     </div>
